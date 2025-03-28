@@ -35,5 +35,5 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: javadoc
-        path: target/site/apidocs
+        path: target/apidocs
         
