@@ -26,8 +26,8 @@ jobs:
 #    - name: Run JUnit tests (CompassTest only)
 #      run: mvn -Dtest=CompassTest test
       
-#    - name: Run JUnit tests
-#      run: mvn test
+    - name: Run JUnit tests
+      run: mvn test
 
     - name: Generate Javadoc
       run: mvn javadoc:javadoc
