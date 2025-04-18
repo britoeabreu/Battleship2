@@ -8,10 +8,6 @@ import java.util.Iterator;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-/**
- * @author ChatGPT
- *
- */
 @DisplayName("Barge class tests")
 class BargeTest {
 
@@ -68,7 +64,7 @@ class BargeTest {
     @Test
     @DisplayName("Test shoot method with invalid input")
     void testShootWithInvalidInput() {
-        Assertions.assertThrows(AssertionError.class, () -> {
+        Assertions.assertThrows(NullPointerException.class, () -> {
             barge.shoot(null);
         });
     }
@@ -99,5 +95,5 @@ class BargeTest {
     void testTooCloseToWithNonOverlappingBarge() {
         Barge nonOverlappingBarge = new Barge(Compass.EAST, new Position(1, 3));
         assertFalse(barge.tooCloseTo(nonOverlappingBarge));
-        }
+    }
 }

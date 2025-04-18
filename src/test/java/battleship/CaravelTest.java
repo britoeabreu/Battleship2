@@ -112,8 +112,13 @@ class CaravelTest
     @Test
     final void testCaravelNullPointerException()
     {
-	assertThrows(NullPointerException.class, () -> new Caravel(null, new Position(0, 0)));
-	assertThrows(NullPointerException.class, () -> new Caravel(null, null));
+		Exception exception = assertThrows(NullPointerException.class, () ->
+					new Caravel(null, new Position(0, 0)));
+		assertEquals("ERROR! invalid bearing for the caravel", exception.getMessage());
+
+		Exception exception2 = assertThrows(NullPointerException.class, () ->
+				new Caravel(null, null));
+		assertEquals("ERROR! invalid bearing for the caravel", exception2.getMessage());
     }
 
 }

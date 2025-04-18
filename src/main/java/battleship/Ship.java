@@ -192,12 +192,12 @@ public abstract class Ship implements IShip
     @Override
     public boolean occupies(IPosition pos)
     {
-	assert pos != null;
-	
-	for (int i = 0; i < getSize(); i++)
-	    if (getPositions().get(i).equals(pos))
-		return true;
-	return false;
+		assert pos != null;
+
+		for (int i = 0; i < getSize(); i++)
+			if (getPositions().get(i).equals(pos))
+				return true;
+		return false;
     }
 
     /*
