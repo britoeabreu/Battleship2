@@ -1,32 +1,73 @@
 package battleship;
 
 /**
- * @author fba
+ * The enum Compass.
  *
+ * @author fba
  */
 public enum Compass
 {
-    NORTH('n'), SOUTH('s'), EAST('e'), WEST('o'), UNKNOWN('u');
+	/**
+	 * North compass.
+	 */
+	NORTH('n'),
+	/**
+	 * South compass.
+	 */
+	SOUTH('s'),
+	/**
+	 * East compass.
+	 */
+	EAST('e'),
+	/**
+	 * West compass.
+	 */
+	WEST('o');
 
-    private final char c;
 
-    Compass(char c)
+	/**
+	 * The C.
+	 */
+	private final char c;
+
+	/**
+	 * Instantiates a new Compass.
+	 *
+	 * @param c the c
+	 */
+	Compass(char c)
     {
 	this.c = c;
     }
-    
-    public char getDirection()
+
+	/**
+	 * Gets direction.
+	 *
+	 * @return the direction
+	 */
+	public char getDirection()
     {
 	return c;
     }
 
-    @Override
+	/**
+	 * To string string.
+	 *
+	 * @return the string
+	 */
+	@Override
     public String toString()
     {
 	return "" + c;
     }
 
-    static Compass charToCompass(char ch)
+	/**
+	 * Char to compass compass.
+	 *
+	 * @param ch the ch
+	 * @return the compass
+	 */
+	static Compass charToCompass(char ch)
     {
         Compass bearing;
         switch (ch)
@@ -44,7 +85,7 @@ public enum Compass
             bearing = WEST;
             break;
         default:
-            bearing = UNKNOWN;
+            bearing = null;
         }
     
         return bearing;

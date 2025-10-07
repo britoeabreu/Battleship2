@@ -4,16 +4,20 @@
 package battleship;
 
 /**
+ * The type Main.
+ *
  * @author britoeabreu
  * @author adrianolopes
  * @author miguelgoulao
  */
 public class Main
 {
-    /**
-     * @param args
-     */
-    static void main(String[] args)
+	/**
+	 * Main.
+	 *
+	 * @param args the args
+	 */
+	static void main(String[] args)
     {
 	System.out.println("***  Battleship  ***");
 

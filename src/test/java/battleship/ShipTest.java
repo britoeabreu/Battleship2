@@ -1,188 +1,228 @@
-/**
- * 
- */
 package battleship;
 
+import org.junit.jupiter.api.*;
 import static org.junit.jupiter.api.Assertions.*;
 
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import java.util.List;
 
 /**
- * @author fba
- *
+ * Test class for Ship.
+ * Author: ${user.name}
+ * Date: ${current_date}
+ * Time: ${current_time}
+ * Cyclomatic Complexity for each method:
+ * - Constructor: 1
+ * - getCategory: 1
+ * - getSize: 1
+ * - getBearing: 1
+ * - getPositions: 1
+ * - stillFloating: 2
+ * - shoot: 2
+ * - occupies: 2
+ * - tooCloseTo (IShip): 2
+ * - tooCloseTo (IPosition): 2
+ * - getTopMostPos: 2
+ * - getBottomMostPos: 2
+ * - getLeftMostPos: 2
+ * - getRightMostPos: 2
  */
-class ShipTest
-{
+public class ShipTest {
 
-    /**
-     * @throws java.lang.Exception
-     */
-    @BeforeAll
-    static void setUpBeforeClass() throws Exception
-    {
-    }
+    private Ship ship;
 
-    /**
-     * @throws java.lang.Exception
-     */
-    @AfterAll
-    static void tearDownAfterClass() throws Exception
-    {
-    }
-
-    /**
-     * @throws java.lang.Exception
-     */
     @BeforeEach
-    void setUp() throws Exception
-    {
+    void setUp() {
+        // Since Ship is abstract, instantiate it with a concrete subclass (e.g., Barge)
+        ship = new Barge(Compass.NORTH, new Position(5, 5));
     }
 
-    /**
-     * @throws java.lang.Exception
-     */
     @AfterEach
-    void tearDown() throws Exception
-    {
+    void tearDown() {
+        ship = null;
     }
 
     /**
-     * Test method for {@link battleship.Ship#Ship(java.lang.String, battleship.Compass, battleship.IPosition)}.
+     * Test for the constructor.
+     * Cyclomatic Complexity: 1
      */
     @Test
-    final void testShip()
-    {
-	fail("Not yet implemented"); // TODO
+    void testConstructor() {
+        assertNotNull(ship, "Error: Ship instance should not be null.");
+        assertEquals("Barca", ship.getCategory(), "Error: Ship category is incorrect.");
+        assertEquals(Compass.NORTH, ship.getBearing(), "Error: Ship bearing is incorrect.");
+        assertEquals(1, ship.getSize(), "Error: Ship size is incorrect.");
+        assertFalse(ship.getPositions().isEmpty(), "Error: Ship positions should not be empty.");
     }
 
     /**
-     * Test method for {@link battleship.Ship#getCategory()}.
+     * Test for the getCategory method.
+     * Cyclomatic Complexity: 1
      */
     @Test
-    final void testGetCategory()
-    {
-	fail("Not yet implemented"); // TODO
+    void testGetCategory() {
+        assertEquals("Barca", ship.getCategory(), "Error: Ship category should be 'Barca'.");
     }
 
     /**
-     * Test method for {@link battleship.Ship#getSize()}.
+     * Test for the getSize method.
+     * Cyclomatic Complexity: 1
      */
     @Test
-    final void testGetSize()
-    {
-	fail("Not yet implemented"); // TODO
+    void testGetSize() {
+        assertEquals(1, ship.getSize(), "Error: Ship size should be 1.");
     }
 
     /**
-     * Test method for {@link battleship.Ship#getPosition()}.
+     * Test for the getBearing method.
+     * Cyclomatic Complexity: 1
      */
     @Test
-    final void testGetPosition()
-    {
-	fail("Not yet implemented"); // TODO
+    void testGetBearing() {
+        assertEquals(Compass.NORTH, ship.getBearing(), "Error: Ship bearing should be NORTH.");
     }
 
     /**
-     * Test method for {@link battleship.Ship#getBearing()}.
+     * Test for the getPositions method.
+     * Cyclomatic Complexity: 1
      */
     @Test
-    final void testGetBearing()
-    {
-	fail("Not yet implemented"); // TODO
+    void testGetPositions() {
+        List<IPosition> positions = ship.getPositions();
+        assertNotNull(positions, "Error: Ship positions should not be null.");
+        assertEquals(1, positions.size(), "Error: Ship should have exactly one position.");
+        assertEquals(5, positions.get(0).getRow(), "Error: Position's row should be 5.");
+        assertEquals(5, positions.get(0).getColumn(), "Error: Position's column should be 5.");
     }
 
     /**
-     * Test method for {@link battleship.Ship#stillFloating()}.
+     * Test for the stillFloating method (all positions intact).
+     * Cyclomatic Complexity: 2
      */
     @Test
-    final void testStillFloating()
-    {
-	fail("Not yet implemented"); // TODO
+    void testStillFloating1() {
+        assertTrue(ship.stillFloating(), "Error: Ship should still be floating.");
     }
 
     /**
-     * Test method for {@link battleship.Ship#getTopMostPos()}.
+     * Test for the stillFloating method (all positions hit).
      */
     @Test
-    final void testGetTopMostPos()
-    {
-	fail("Not yet implemented"); // TODO
+    void testStillFloating2() {
+        ship.getPositions().get(0).shoot();
+        assertFalse(ship.stillFloating(), "Error: Ship should no longer be floating after being hit.");
     }
 
     /**
-     * Test method for {@link battleship.Ship#getBottomMostPos()}.
+     * Test for the shoot method (valid position).
+     * Cyclomatic Complexity: 2
      */
     @Test
-    final void testGetBottomMostPos()
-    {
-	fail("Not yet implemented"); // TODO
+    void testShoot1() {
+        Position target = new Position(5, 5);
+        ship.shoot(target);
+        assertTrue(ship.getPositions().get(0).isHit(), "Error: Position should be marked as hit.");
     }
 
     /**
-     * Test method for {@link battleship.Ship#getLeftMostPos()}.
+     * Test for the shoot method (invalid position).
      */
     @Test
-    final void testGetLeftMostPos()
-    {
-	fail("Not yet implemented"); // TODO
+    void testShoot2() {
+        Position target = new Position(0, 0);
+        ship.shoot(target); // No exception expected
+        assertFalse(ship.getPositions().get(0).isHit(), "Error: Position should not be marked as hit for an invalid target.");
     }
 
     /**
-     * Test method for {@link battleship.Ship#getRightMostPos()}.
+     * Test for the occupies method (position occupied).
+     * Cyclomatic Complexity: 2
      */
     @Test
-    final void testGetRightMostPos()
-    {
-	fail("Not yet implemented"); // TODO
+    void testOccupies1() {
+        Position pos = new Position(5, 5);
+        assertTrue(ship.occupies(pos), "Error: Ship should occupy position (5, 5).");
     }
 
     /**
-     * Test method for {@link battleship.Ship#occupies(battleship.IPosition)}.
+     * Test for the occupies method (position not occupied).
      */
     @Test
-    final void testOccupies()
-    {
-	fail("Not yet implemented"); // TODO
+    void testOccupies2() {
+        Position pos = new Position(1, 1);
+        assertFalse(ship.occupies(pos), "Error: Ship should not occupy position (1, 1).");
     }
 
     /**
-     * Test method for {@link battleship.Ship#tooCloseTo(battleship.IShip)}.
+     * Test for the tooCloseTo method with another IShip (ships too close).
+     * Cyclomatic Complexity: 2
      */
     @Test
-    final void testTooCloseTo()
-    {
-	fail("Not yet implemented"); // TODO
+    void testTooCloseToShip1() {
+        Ship nearbyShip = new Barge(Compass.NORTH, new Position(5, 6));
+        assertTrue(ship.tooCloseTo(nearbyShip), "Error: Ships should be too close.");
     }
 
     /**
-     * Test method for {@link battleship.Ship#getPositions()}.
+     * Test for the tooCloseTo method with another IShip (ships not close).
      */
     @Test
-    final void testGetPositions()
-    {
-	fail("Not yet implemented"); // TODO
+    void testTooCloseToShip2() {
+        Ship farShip = new Barge(Compass.NORTH, new Position(10, 10));
+        assertFalse(ship.tooCloseTo(farShip), "Error: Ships should not be too close.");
     }
 
     /**
-     * Test method for {@link battleship.Ship#shoot(battleship.IPosition)}.
+     * Test for the tooCloseTo method with an IPosition (positions adjacent).
+     * Cyclomatic Complexity: 2
      */
     @Test
-    final void testShoot()
-    {
-	fail("Not yet implemented"); // TODO
+    void testTooCloseToPosition1() {
+        Position pos = new Position(5, 6); // Adjacent position
+        assertTrue(ship.tooCloseTo(pos), "Error: Ship should be too close to the given position.");
     }
 
     /**
-     * Test method for {@link battleship.Ship#toString()}.
+     * Test for the tooCloseTo method with an IPosition (positions not adjacent).
      */
     @Test
-    final void testToString()
-    {
-	fail("Not yet implemented"); // TODO
+    void testTooCloseToPosition2() {
+        Position pos = new Position(7, 7); // Non-adjacent position
+        assertFalse(ship.tooCloseTo(pos), "Error: Ship should not be too close to the given position.");
     }
 
+    /**
+     * Test for the getTopMostPos method.
+     * Cyclomatic Complexity: 2
+     */
+    @Test
+    void testGetTopMostPos() {
+        assertEquals(5, ship.getTopMostPos(), "Error: The topmost position should be 5.");
+    }
+
+    /**
+     * Test for the getBottomMostPos method.
+     * Cyclomatic Complexity: 2
+     */
+    @Test
+    void testGetBottomMostPos() {
+        assertEquals(5, ship.getBottomMostPos(), "Error: The bottommost position should be 5.");
+    }
+
+    /**
+     * Test for the getLeftMostPos method.
+     * Cyclomatic Complexity: 2
+     */
+    @Test
+    void testGetLeftMostPos() {
+        assertEquals(5, ship.getLeftMostPos(), "Error: The leftmost position should be 5.");
+    }
+
+    /**
+     * Test for the getRightMostPos method.
+     * Cyclomatic Complexity: 2
+     */
+    @Test
+    void testGetRightMostPos() {
+        assertEquals(5, ship.getRightMostPos(), "Error: The rightmost position should be 5.");
+    }
 }

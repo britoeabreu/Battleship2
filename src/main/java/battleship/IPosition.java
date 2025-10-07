@@ -1,24 +1,70 @@
 package battleship;
 
 /**
- * @author fba
+ * The interface Position.
  *
+ * @author fba
  */
 public interface IPosition
 {
-    int getRow();
+	/**
+	 * Gets row.
+	 *
+	 * @return the row
+	 */
+	int getRow();
 
-    int getColumn();
+	/**
+	 * Gets column.
+	 *
+	 * @return the column
+	 */
+	int getColumn();
 
-    boolean equals(Object other);
+	/**
+	 * Equals boolean.
+	 *
+	 * @param other the other
+	 * @return the boolean
+	 */
+	boolean equals(Object other);
 
-    boolean isAdjacentTo(IPosition other);
+	/**
+	 * Checks if the position is valid.
+	 *
+	 * @return true if valid, false otherwise
+	 */
+	boolean isValid();
 
-    void occupy();
+	/**
+	 * Is adjacent to boolean.
+	 *
+	 * @param other the other
+	 * @return the boolean
+	 */
+	boolean isAdjacentTo(IPosition other);
 
-    void shoot();
+	/**
+	 * Occupy.
+	 */
+	void occupy();
 
-    boolean isOccupied();
+	/**
+	 * Shoot.
+	 */
+	void shoot();
 
-    boolean isHit();
+	/**
+	 * Is occupied boolean.
+	 *
+	 * @return the boolean
+	 */
+	boolean isOccupied();
+
+	/**
+	 * Is hit boolean.
+	 *
+	 * @return the boolean
+	 */
+	boolean isHit();
 }

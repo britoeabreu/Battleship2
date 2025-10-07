@@ -6,33 +6,114 @@ package battleship;
 import java.util.Iterator;
 import java.util.List;
 
+/**
+ * The interface Ship.
+ */
 public interface IShip
 {
-    String getCategory();
+	/**
+	 * Gets category.
+	 *
+	 * @return the category
+	 */
+	String getCategory();
 
-    Integer getSize();
-    
-    List<IPosition> getPositions();
+	/**
+	 * Gets size.
+	 *
+	 * @return the size
+	 */
+	Integer getSize();
 
-    IPosition getPosition();
+	/**
+	 * Gets positions.
+	 *
+	 * @return the positions
+	 */
+	List<IPosition> getPositions();
 
-    Compass getBearing();
+	/**
+	 * Gets position.
+	 *
+	 * @return the position
+	 */
+	IPosition getPosition();
 
-    boolean stillFloating();
+	/**
+	 * Gets bearing.
+	 *
+	 * @return the bearing
+	 */
+	Compass getBearing();
 
-    int getTopMostPos();
+	/**
+	 * Still floating boolean.
+	 *
+	 * @return the boolean
+	 */
+	boolean stillFloating();
 
-    int getBottomMostPos();
+	/**
+	 * Gets top most pos.
+	 *
+	 * @return the top most pos
+	 */
+	int getTopMostPos();
 
-    int getLeftMostPos();
+	/**
+	 * Gets bottom most pos.
+	 *
+	 * @return the bottom most pos
+	 */
+	int getBottomMostPos();
 
-    int getRightMostPos();
+	/**
+	 * Gets left most pos.
+	 *
+	 * @return the left most pos
+	 */
+	int getLeftMostPos();
 
-    boolean occupies(IPosition pos);
+	/**
+	 * Gets right most pos.
+	 *
+	 * @return the right most pos
+	 */
+	int getRightMostPos();
 
-    boolean tooCloseTo(IShip other);
-    
-    boolean tooCloseTo(IPosition pos);
+	/**
+	 * Occupies boolean.
+	 *
+	 * @param pos the pos
+	 * @return the boolean
+	 */
+	boolean occupies(IPosition pos);
 
-    void shoot(IPosition pos);
+	/**
+	 * Too close to boolean.
+	 *
+	 * @param other the other
+	 * @return the boolean
+	 */
+	boolean tooCloseTo(IShip other);
+
+	/**
+	 * Too close to boolean.
+	 *
+	 * @param pos the pos
+	 * @return the boolean
+	 */
+	boolean tooCloseTo(IPosition pos);
+
+	/**
+	 * Shoot.
+	 *
+	 * @param pos the pos
+	 */
+	void shoot(IPosition pos);
+
+	/**
+	 * Sink.
+	 */
+	void sink();
 }

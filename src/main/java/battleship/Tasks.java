@@ -5,23 +5,50 @@ import java.util.Scanner;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+/**
+ * The type Tasks.
+ */
 public class Tasks
 {
-    private static final Logger LOGGER = LogManager.getLogger();
+	/**
+	 * The constant LOGGER.
+	 */
+	private static final Logger LOGGER = LogManager.getLogger();
 
-    private static final int NUMBER_SHOTS = 3;
+	/**
+	 * The constant NUMBER_SHOTS.
+	 */
+	private static final int NUMBER_SHOTS = 3;
 
-    private static final String GOODBYE_MESSAGE = "Bons ventos!";
+	/**
+	 * The constant GOODBYE_MESSAGE.
+	 */
+	private static final String GOODBYE_MESSAGE = "Bons ventos!";
 
-    /**
-     * Strings to be used by the user
-     */
-    private static final String NOVAFROTA = "nova";
-    private static final String DESISTIR = "desisto";
-    private static final String RAJADA = "rajada";
-    private static final String VERTIROS = "ver";
-    private static final String BATOTA = "mapa";
-    private static final String STATUS = "estado";
+	/**
+	 * Strings to be used by the user
+	 */
+	private static final String NOVAFROTA = "nova";
+	/**
+	 * The constant DESISTIR.
+	 */
+	private static final String DESISTIR = "desisto";
+	/**
+	 * The constant RAJADA.
+	 */
+	private static final String RAJADA = "rajada";
+	/**
+	 * The constant VERTIROS.
+	 */
+	private static final String VERTIROS = "ver";
+	/**
+	 * The constant BATOTA.
+	 */
+	private static final String BATOTA = "mapa";
+	/**
+	 * The constant STATUS.
+	 */
+	private static final String STATUS = "estado";
 
     
     /////////////////////////////////////////////////////////////////////////////
@@ -30,12 +57,12 @@ public class Tasks
     // develop our code incrementally e.g. first the ships, then the fleet,
     // then some rule checking, then dealing with firing and so on
     /////////////////////////////////////////////////////////////////////////////
-    
-    /**
-     * This task tests the building up of ships: For each ship, reads positions and
-     * indicates whether the ship occupies each one of such positions or not
-     */
-    public static void taskA()
+
+	/**
+	 * This task tests the building up of ships: For each ship, reads positions and
+	 * indicates whether the ship occupies each one of such positions or not
+	 */
+	public static void taskA()
     {
 	Scanner in = new Scanner(System.in);
 	while (in.hasNext())
@@ -50,10 +77,10 @@ public class Tasks
 	}
     }
 
-    /**
-     * This task tests the building up of fleets
-     */
-    public static void taskB()
+	/**
+	 * This task tests the building up of fleets
+	 */
+	public static void taskB()
     {
 	Scanner in = new Scanner(System.in);
 	IFleet fleet = null;
@@ -77,11 +104,11 @@ public class Tasks
 	LOGGER.info(GOODBYE_MESSAGE);
     }
 
-    /**
-     * This task tests the building up of fleets and takes into consideration the
-     * possibility of cheating
-     */
-    public static void taskC()
+	/**
+	 * This task tests the building up of fleets and takes into consideration the
+	 * possibility of cheating
+	 */
+	public static void taskC()
     {
 	Scanner in = new Scanner(System.in);
 	IFleet fleet = null;
@@ -111,10 +138,10 @@ public class Tasks
 	LOGGER.info(GOODBYE_MESSAGE);
     }
 
-    /**
-     * This task also tests the fighting element of a round of three shots
-     */
-    public static void taskD()
+	/**
+	 * This task also tests the fighting element of a round of three shots
+	 */
+	public static void taskD()
     {
 
 	Scanner in = new Scanner(System.in);
@@ -160,13 +187,13 @@ public class Tasks
 	LOGGER.info(GOODBYE_MESSAGE);
     }
 
-    /**
-     * This operation allows the build up of a fleet, given user data
-     * 
-     * @param in The scanner to read from
-     * @return The fleet that has been built
-     */
-    static Fleet buildFleet(Scanner in)
+	/**
+	 * This operation allows the build up of a fleet, given user data
+	 *
+	 * @param in The scanner to read from
+	 * @return The fleet that has been built
+	 */
+	static Fleet buildFleet(Scanner in)
     {
 	assert in != null;
 
@@ -191,13 +218,13 @@ public class Tasks
 	return fleet;
     }
 
-    /**
-     * This operation reads data about a ship, build it and returns it
-     * 
-     * @param in The scanner to read from
-     * @return The created ship based on the data that has been read
-     */
-    static Ship readShip(Scanner in)
+	/**
+	 * This operation reads data about a ship, build it and returns it
+	 *
+	 * @param in The scanner to read from
+	 * @return The created ship based on the data that has been read
+	 */
+	static Ship readShip(Scanner in)
     {
 	String shipKind = in.next();
 	Position pos = readPosition(in);
@@ -206,27 +233,27 @@ public class Tasks
 	return Ship.buildShip(shipKind, bearing, pos);
     }
 
-    /**
-     * This operation allows reading a position in the map
-     * 
-     * @param in The scanner to read from
-     * @return The position that has been read
-     */
-    static Position readPosition(Scanner in)
+	/**
+	 * This operation allows reading a position in the map
+	 *
+	 * @param in The scanner to read from
+	 * @return The position that has been read
+	 */
+	static Position readPosition(Scanner in)
     {
 	int row = in.nextInt();
 	int column = in.nextInt();
 	return new Position(row, column);
     }
 
-    /**
-     * This operation allows firing a round of shots (three) over a fleet, in the
-     * context of a game
-     * 
-     * @param in   The scanner to read from
-     * @param game The context game while fleet is being attacked
-     */
-    static void firingRound(Scanner in, IGame game)
+	/**
+	 * This operation allows firing a round of shots (three) over a fleet, in the
+	 * context of a game
+	 *
+	 * @param in   The scanner to read from
+	 * @param game The context game while fleet is being attacked
+	 */
+	static void firingRound(Scanner in, IGame game)
     {
 	for (int i = 0; i < NUMBER_SHOTS; i++)
 	{
