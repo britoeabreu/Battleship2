@@ -1,6 +1,11 @@
 name: Sync Labels
 on:
-  workflow_dispatch: # Manual trigger
+  workflow_dispatch:
+
+# Add these lines to give the token permission to manage labels
+permissions:
+  issues: write
+  pull-requests: write
 
 jobs:
   labeler:
@@ -20,6 +25,7 @@ jobs:
 
             echo "Syncing label: $NAME"
             
-            gh label create "$NAME" --color "$COLOR" --description "$DESC" --force || \
+            # Using --force or checking existence to prevent 422 errors
+            gh label create "$NAME" --color "$COLOR" --description "$DESC" || \
             gh label edit "$NAME" --color "$COLOR" --description "$DESC"
           done
