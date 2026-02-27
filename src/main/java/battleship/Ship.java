@@ -105,7 +105,7 @@ public abstract class Ship implements IShip
 	 * @param category The category of ships of interest
 	 * @param bearing  The bearing of ships of interest
 	 * @param pos      The position of ships of interest
-	 * @param size
+	 * @param size		The number of positions occupied by the ship
 	 */
 	public Ship(String category, Compass bearing, IPosition pos, int size)
     {

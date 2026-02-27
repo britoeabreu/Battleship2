@@ -36,10 +36,13 @@ public interface IGame
 	record ShotResult(boolean valid, boolean repeated, IShip ship, boolean sunk) {}
 
 	/**
-	 * Fires a single shot at a specified position on the game board.
+	 * Fires a single shot at the specified position and indicates whether the shot is valid, repeated,
+	 * and if it hit or sank a ship.
 	 *
-	 * @param pos the position where the shot is fired, represented as an instance of {@code IPosition}
-	 * @return the ship at the specified position if hit; returns {@code null} if no ship is present
+	 * @param pos the position to fire the shot at, represented as an instance of {@code IPosition}
+	 * @param isRepeated a boolean indicating if the shot is a repeated attempt at the given position
+	 * @return a {@code ShotResult} containing details such as the validity of the shot, whether it was repeated,
+	 *         the ship (if any) affected, and whether the ship was sunk
 	 */
 	ShotResult fireSingleShot(IPosition pos, boolean isRepeated);
 
