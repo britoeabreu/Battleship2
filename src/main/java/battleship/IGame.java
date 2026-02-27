@@ -4,6 +4,7 @@
 package battleship;
 
 import java.util.List;
+import java.util.Scanner;
 
 /**
  * The interface Game.
@@ -11,31 +12,64 @@ import java.util.List;
 public interface IGame
 {
 	/**
-	 * The constant BOARD_SIZE.
+	 * Simulates a random enemy firing action on the game board.
+	 *
+	 * @return a {@code String} indicating the result of the firing action, such as details about a hit, a miss, or other outcomes
 	 */
-	Integer BOARD_SIZE = 10;
+	String randomEnemyFire();
 
 	/**
-	 * Fire ship.
+	 * Reads the result of an enemy firing action from input and interprets it.
 	 *
-	 * @param pos the pos
-	 * @return the ship
+	 * @param in the {@code Scanner} to read the input from, which provides the details of the enemy fire
+	 * @return a {@code String} describing the outcome of the enemy fire, such as a hit, a miss, or other results
 	 */
-	IShip fire(IPosition pos);
+	String readEnemyFire(Scanner in);
 
 	/**
-	 * Gets the fleet.
+	 * Fires a set of shots in a given move.
 	 *
-	 * @return the fleet
+	 * @param shots the positions where the shots are fired
 	 */
-	IFleet getFleet();
+	void fireShots(List<IPosition> shots);
+
+	record ShotResult(boolean valid, boolean repeated, IShip ship, boolean sunk) {}
 
 	/**
-	 * Gets shots.
+	 * Fires a single shot at a specified position on the game board.
 	 *
-	 * @return the shots
+	 * @param pos the position where the shot is fired, represented as an instance of {@code IPosition}
+	 * @return the ship at the specified position if hit; returns {@code null} if no ship is present
 	 */
-	List<IPosition> getShots();
+	ShotResult fireSingleShot(IPosition pos, boolean isRepeated);
+
+	/**
+	 * Gets my fleet.
+	 *
+	 * @return my fleet
+	 */
+	IFleet getMyFleet();
+
+	/**
+	 * Gets alien moves
+	 *
+	 * @return the alien moves
+	 */
+	List<IMove> getAlienMoves();
+
+	/**
+	 * Gets the alien fleet
+	 *
+	 * @return the alien fleet
+	 */
+	IFleet getAlienFleet();
+
+	/**
+	 * Gets my moves
+	 *
+	 * @return my moves
+	 */
+	List<IMove> getMyMoves();
 
 	/**
 	 * Gets repeated shots.
@@ -73,17 +107,14 @@ public interface IGame
 	int getRemainingShips();
 
 	/**
-	 * Print board.
+	 * Print my board (my fleet + alien shots).
 	 */
-	void printBoard(Boolean show_shots);
+	void printMyBoard(boolean show_shots, boolean show_legend);
 
 	/**
-	 * Print valid shots.
+	 * Print the alien board (alien fleet + my shots).
 	 */
-	void printValidShots();
+	void printAlienBoard(boolean show_shots, boolean show_legend);
 
-	/**
-	 * Print fleet.
-	 */
-	void printFleet();
+	void over();
 }

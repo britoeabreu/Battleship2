@@ -3,7 +3,6 @@
  */
 package battleship;
 
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -31,6 +30,13 @@ public interface IShip
 	 * @return the positions
 	 */
 	List<IPosition> getPositions();
+
+	/**
+	 * Gets positions.
+	 *
+	 * @return the adjacent positions
+	 */
+	List<IPosition> getAdjacentPositions();
 
 	/**
 	 * Gets position.

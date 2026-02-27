@@ -1,10 +1,8 @@
 package battleship;
 
+import java.util.List;
+
 import org.junit.jupiter.api.*;
-
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
@@ -44,8 +42,8 @@ public class GameTest {
 	@Test
 	void constructor() {
 		assertNotNull(game, "Game instance should not be null after construction.");
-		assertNotNull(game.getShots(), "Shots list should not be null after initialization.");
-		assertTrue(game.getShots().isEmpty(), "Shots list should be empty upon initialization.");
+		assertNotNull(game.getAlienMoves(), "Shots list should not be null after initialization.");
+		assertTrue(game.getAlienMoves().isEmpty(), "Shots list should be empty upon initialization.");
 		assertEquals(0, game.getInvalidShots(), "Invalid shots count should be zero upon initialization.");
 		assertEquals(0, game.getRepeatedShots(), "Repeated shots count should be zero upon initialization.");
 		assertEquals(0, game.getHits(), "Hits count should be zero upon initialization.");
@@ -53,49 +51,25 @@ public class GameTest {
 	}
 
 	@Test
-	void fire1() {
-		Position validPosition = new Position(2, 3);
-		game.fire(validPosition);
-		assertEquals(1, game.getShots().size(), "Valid shot should be added to the shots list.");
-	}
-
-	@Test
 	void fire2() {
 		Position invalidPosition = new Position(-1, 5);
-		game.fire(invalidPosition);
+		game.fireSingleShot(invalidPosition, false);
 		assertEquals(1, game.getInvalidShots(), "Invalid shots counter should increase for an invalid shot.");
 	}
 
 	@Test
 	void fire3() {
 		Position position = new Position(2, 3);
-		game.fire(position);
-		game.fire(position);
+		game.fireSingleShot(position, false);
+		game.fireSingleShot(position, true);
 		assertEquals(1, game.getRepeatedShots(), "Repeated shots counter should increase for a repeated shot.");
 	}
 
 	@Test
-	void validShot1() {
-		Position validPosition = new Position(2, 3);
-		assertTrue(game.validShot(validPosition), "Position (2,3) should be valid.");
-	}
-
-	@Test
-	void validShot2() {
-		Position invalidPosition = new Position(-1, 5);
-		assertFalse(game.validShot(invalidPosition), "Position with negative row should be invalid.");
-	}
-
-	@Test
-	void validShot3() {
-		Position invalidPosition = new Position(IGame.BOARD_SIZE, 5);
-		assertFalse(game.validShot(invalidPosition), "Position with row >= BOARD_SIZE should be invalid.");
-	}
-
-	@Test
 	void repeatedShot1() {
+		List<IPosition> positions = List.of(new Position(2, 3), new Position(2, 4), new Position(2, 5));
+		game.fireShots(positions);
 		Position position = new Position(2, 3);
-		game.fire(position);
 		assertTrue(game.repeatedShot(position), "Position (2,3) should be marked as repeated after firing.");
 	}
 
@@ -106,15 +80,15 @@ public class GameTest {
 	}
 
 	@Test
-	void getShots() {
-		Position position = new Position(2, 3);
-		game.fire(position);
-		assertEquals(1, game.getShots().size(), "Shots list should contain one shot after firing once.");
+	void getAlienMoves() {
+		List<IPosition> positions = List.of(new Position(2, 3), new Position(2, 4), new Position(2, 5));
+		game.fireShots(positions);
+		assertEquals(1, game.getAlienMoves().size(), "Shots list should contain one shot after firing once.");
 	}
 
 	@Test
 	void getRemainingShips() {
-		IFleet fleet = game.getFleet();
+		IFleet fleet = game.getMyFleet();
 		Ship ship1 = new Barge(Compass.NORTH, new Position(1, 1));
 		Ship ship2 = new Frigate(Compass.EAST, new Position(5, 5));
 
@@ -126,23 +100,4 @@ public class GameTest {
 		assertEquals(1, game.getRemainingShips(), "Remaining ships count should be 1 after sinking one of two ships.");
 	}
 
-	@Test
-	void printBoard() {
-		final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-		final PrintStream originalOut = System.out;
-
-		// System.setOut(new PrintStream(outContent));
-
-		IFleet fleet = game.getFleet();
-
-		Ship ship1 = new Barge(Compass.NORTH, new Position(1, 1));
-		Ship ship2 = new Frigate(Compass.EAST, new Position(5, 5));
-		fleet.addShip(ship1);
-		fleet.addShip(ship2);
-
-		game.printBoard(true);
-
-		System.setOut(originalOut);
-
-	}
 }

@@ -1,5 +1,7 @@
 package battleship;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -12,12 +14,12 @@ public class Position implements IPosition {
 	/**
 	 * The row coordinate of the position.
 	 */
-	private int row;
+	private final int row;
 
 	/**
 	 * The column coordinate of the position.
 	 */
-	private int column;
+	private final int column;
 
 	/**
 	 * Indicates whether the position is occupied by a ship.
@@ -28,6 +30,27 @@ public class Position implements IPosition {
 	 * Indicates whether the position has been hit by an attack.
 	 */
 	private boolean isHit;
+
+	//------------------------------------------------------------------
+	public static Position randomPosition() {
+		// Generate random position on the board
+		int row = (int) (Math.random() * Game.BOARD_SIZE);
+		int col = (int) (Math.random() * Game.BOARD_SIZE);
+		return new Position(row, col);
+	}
+	/**
+	 * Constructs a new Position with the specified row and column.
+	 * By default, the position is not occupied and not hit.
+	 *
+	 * @param classicRow    the row coordinate of the position
+	 * @param classicColumn the column coordinate of the position
+	 */
+	public Position(char classicRow, int classicColumn) {
+		this.row = Character.toUpperCase(classicRow) - 'A';
+		this.column = classicColumn-1;
+		this.isOccupied = false;
+		this.isHit = false;
+	}
 
 	/**
 	 * Constructs a new Position with the specified row and column.
@@ -64,14 +87,31 @@ public class Position implements IPosition {
 	}
 
 	/**
-	 * Checks if this position is valid on the game board.
-	 * A position is valid if its row and column are within the board's boundaries.
+	 * Gets traditional row.
 	 *
-	 * @return true if the position is valid, false otherwise
+	 * @return the traditional row within [A-J]
+	 */
+	public char getClassicRow() {
+		return (char) ('A' + row);
+	}
+
+	/**
+	 * Gets traditional column.
+	 *
+	 * @return the traditional column within [1-10]
+	 */
+	public int getClassicColumn() {
+		return column + 1;
+	}
+	/**
+	 * Checks if this position is valid on the game board.
+	 * A position is "inside" if its row and column are within the board's boundaries.
+	 *
+	 * @return true if the position is within the board, false otherwise
 	 */
 	@Override
-	public boolean isValid() {
-		return row >= 0 && column >= 0 && row < IGame.BOARD_SIZE && column < IGame.BOARD_SIZE;
+	public boolean isInside() {
+		return row >= 0 && column >= 0 && row < Game.BOARD_SIZE && column < Game.BOARD_SIZE;
 	}
 
 	/**
@@ -84,6 +124,43 @@ public class Position implements IPosition {
 	@Override
 	public boolean isAdjacentTo(IPosition other) {
 		return Math.abs(this.row - other.getRow()) <= 1 && Math.abs(this.column - other.getColumn()) <= 1;
+	}
+
+	/**
+	 * Returns all valid adjacent positions (up, right, down, left) for this position.
+	 * A valid position is one that exists within the board boundaries.
+	 * @return List of valid adjacent positions
+	 */
+	@Override
+	public List<IPosition> adjacentPositions() {
+
+		List<IPosition> adjacents = new ArrayList<IPosition>();
+
+		int row = this.getRow();
+		int col = this.getColumn();
+
+		// Define possible directions (up, right, down, left)
+		int[][] directions = {
+				{-1, 0},  // north
+				{0, 1},   // east
+				{1, 0},   // south
+				{0, -1},   // west
+				{1, 1},   // northeast
+				{1, -1},  // northwest
+				{-1, 1},  // southeast
+				{-1, -1} // southwest
+		};
+
+		// Check each possible direction
+		for (int[] dir : directions) {
+			Position newPosition = new Position(row + dir[0], col + dir[1]);
+			// Only add the position if it's inside the board boundaries
+			if (newPosition.isInside()) {
+				adjacents.add(newPosition);
+			}
+		}
+
+		return adjacents;
 	}
 
 	/**
@@ -159,6 +236,7 @@ public class Position implements IPosition {
 	 */
 	@Override
 	public String toString() {
-		return "Row = " + row + ", Column = " + column;
+		return (char) ('A' + row) + "" + (column + 1);
+//		return "Row = " + (char) ('A' + row) + ", Column = " + (column + 1);
 	}
 }

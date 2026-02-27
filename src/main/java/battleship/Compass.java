@@ -24,6 +24,17 @@ public enum Compass
 	 */
 	WEST('o');
 
+	/**
+	 * Generate a random compass direction (bearing).
+	 *
+	 * @return A random compass direction.
+	 */
+	public static Compass randomBearing() {
+		Compass[] values = Compass.values();  // Get all enum values
+		int randomIndex = (int) (Math.random() * values.length);  // Pick a random index
+		return values[randomIndex];  // Return the random compass direction
+	}
+
 
 	/**
 	 * The C.

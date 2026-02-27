@@ -27,6 +27,7 @@ public class PositionTest {
 	@BeforeEach
 	void setUp() {
 		position = new Position(2, 3);
+	//	position = new Position('C', 4);
 	}
 
 	@AfterEach
@@ -55,33 +56,43 @@ public class PositionTest {
 	}
 
 	@Test
+	void getClassicRow() {
+		assertEquals('C', position.getClassicRow(), "Failed to get row: expected 2 but got " + position.getRow());
+	}
+
+	@Test
+	void getClassicColumn() {
+		assertEquals(3, position.getColumn(), "Failed to get column: expected 3 but got " + position.getColumn());
+	}
+
+	@Test
 	void isValid1() {
 		position = new Position(0, 0);
-		assertTrue(position.isValid(), "Position (0,0) should be valid");
+		assertTrue(position.isInside(), "Position (0,0) should be valid");
 	}
 
 	@Test
 	void isValid2() {
 		position = new Position(-1, 5);
-		assertFalse(position.isValid(), "Position with negative row should be invalid");
+		assertFalse(position.isInside(), "Position with negative row should be invalid");
 	}
 
 	@Test
 	void isValid3() {
 		position = new Position(5, -1);
-		assertFalse(position.isValid(), "Position with negative column should be invalid");
+		assertFalse(position.isInside(), "Position with negative column should be invalid");
 	}
 
 	@Test
 	void isValid4() {
-		position = new Position(IGame.BOARD_SIZE, 5);
-		assertFalse(position.isValid(), "Position with row >= BOARD_SIZE should be invalid");
+		position = new Position(Game.BOARD_SIZE, 5);
+		assertFalse(position.isInside(), "Position with row >= BOARD_SIZE should be invalid");
 	}
 
 	@Test
 	void isValid5() {
-		position = new Position(5, IGame.BOARD_SIZE);
-		assertFalse(position.isValid(), "Position with column >= BOARD_SIZE should be invalid");
+		position = new Position(5, Game.BOARD_SIZE);
+		assertFalse(position.isInside(), "Position with column >= BOARD_SIZE should be invalid");
 	}
 
 	@Test
@@ -165,7 +176,8 @@ public class PositionTest {
 
 	@Test
 	void toStringFormat() {
-		String expected = "Row = 2, Column = 3";
+//		String expected = "Row = C, Column = 4";
+		String expected = "C4";
 		assertEquals(expected, position.toString(),
 				"Incorrect string representation: expected '" + expected +
 						"' but got '" + position.toString() + "'");

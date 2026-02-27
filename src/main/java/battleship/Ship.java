@@ -44,19 +44,28 @@ public abstract class Ship implements IShip
 	 */
 	static Ship buildShip(String shipKind, Compass bearing, Position pos)
     {
+		assert shipKind != null;
+		assert bearing != null;
+		assert pos != null;
+
         Ship s;
         switch (shipKind)
         {
         case BARCA:
             s = new Barge(bearing, pos);
+			break;
         case CARAVELA:
             s = new Caravel(bearing, pos);
+			break;
         case NAU:
             s = new Carrack(bearing, pos);
+			break;
         case FRAGATA:
             s = new Frigate(bearing, pos);
+			break;
         case GALEAO:
             s = new Galleon(bearing, pos);
+			break;
         default:
             s = null;
         }
@@ -86,11 +95,9 @@ public abstract class Ship implements IShip
 	private Integer size;
 
 	/**
-	 * The Positions.
+	 * The Positions occupied by the ship.
 	 */
-
 	protected List<IPosition> positions;
-
 
 	/**
 	 * Create ships
@@ -137,8 +144,28 @@ public abstract class Ship implements IShip
 	 */
 	public List<IPosition> getPositions()
     {
-	return positions;
+		return positions;
     }
+
+	/**
+	 * Retrieves a list of positions adjacent to the ship's current positions.
+	 * Adjacent positions are defined as neighboring positions that are not
+	 * already occupied by the ship and are not duplicates in the final list.
+	 *
+	 * @return a list of IPosition objects representing adjacent positions
+	 */
+	public List<IPosition> getAdjacentPositions()
+	{
+		List<IPosition> adjacentPositions = new ArrayList<IPosition>();
+		for (IPosition position : getPositions())
+		{
+			List<IPosition> adjacents = position.adjacentPositions();
+			for (IPosition adj : adjacents)
+				if (!getPositions().contains(adj) && !adjacentPositions.contains(adj))
+					adjacentPositions.add(adj);
+		}
+		return adjacentPositions;
+	}
 
 	/**
 	 * Gets position.
@@ -318,14 +345,14 @@ public abstract class Ship implements IShip
     @Override
     public boolean tooCloseTo(IShip other)
     {
-	assert other != null;
-	
-	Iterator<IPosition> otherPos = other.getPositions().iterator();
-	while (otherPos.hasNext())
-	    if (tooCloseTo(otherPos.next()))
-		return true;
+		assert other != null;
 
-	return false;
+		Iterator<IPosition> otherPos = other.getPositions().iterator();
+		while (otherPos.hasNext())
+			if (tooCloseTo(otherPos.next()))
+			return true;
+
+		return false;
     }
 
 	/**
@@ -342,10 +369,12 @@ public abstract class Ship implements IShip
     @Override
     public boolean tooCloseTo(IPosition pos)
     {
-	for (int i = 0; i < this.getSize(); i++)
-	    if (getPositions().get(i).isAdjacentTo(pos))
-		return true;
-	return false;
+		assert pos != null;
+
+		for (int i = 0; i < this.getSize(); i++)
+			if (getPositions().get(i).isAdjacentTo(pos))
+			return true;
+		return false;
     }
 
 
@@ -363,7 +392,7 @@ public abstract class Ship implements IShip
     public void shoot(IPosition pos)
     {
 		assert pos != null;
-		assert pos.isValid();
+		assert pos.isInside();
 
 		for (IPosition position : getPositions())
 		{

@@ -13,7 +13,7 @@ public interface IFleet
 	/**
 	 * The constant FLEET_SIZE.
 	 */
-	Integer FLEET_SIZE = 10;
+	Integer FLEET_SIZE = 11;
 
 	/**
 	 * Gets ships.
@@ -44,6 +44,13 @@ public interface IFleet
 	 * @return the floating ships
 	 */
 	List<IShip> getFloatingShips();
+
+	/**
+	 * Gets sunk ships.
+	 *
+	 * @return the sunk ships
+	 */
+	List<IShip> getSunkShips();
 
 	/**
 	 * Ship at ship.
