@@ -73,7 +73,7 @@ Hits are calculated based on the intersection of the shot vector and the ship's 
 
 ## 🏗 Code Documentation
 
-![Click here to access](https://britoeabreu.github.io/Battleship2/battleship/
+![Click here to access](https://britoeabreu.github.io/Battleship2/battleship/)
 
 ### Core Logic
 ```java
