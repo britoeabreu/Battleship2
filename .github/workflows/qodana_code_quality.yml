@@ -33,11 +33,14 @@ jobs:
 
       - name: Enforce Javadoc and CodeStyle thresholds
         run: |
-          SARIF="qodana/results/qodana.sarif.json"
+          SARIF="$RUNNER_TEMP/qodana/results/qodana.sarif.json"
+
+          echo "Looking for SARIF at: $SARIF"
 
           if [ ! -f "$SARIF" ]; then
             echo "SARIF report not found at $SARIF"
-            ls -R qodana || true
+            echo "Listing temp directory:"
+            ls -R "$RUNNER_TEMP" || true
             exit 1
           fi
 
