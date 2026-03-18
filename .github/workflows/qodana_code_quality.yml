@@ -1,11 +1,12 @@
 name: Qodana
+
 on:
   workflow_dispatch:
   pull_request:
   push:
-    branches: # Specify your branches here
-      - main # The 'main' branch
-      - 'releases/*' # The release branches
+    branches:
+      - main
+      - 'releases/*'
 
 jobs:
   qodana:
@@ -14,15 +15,54 @@ jobs:
       contents: write
       pull-requests: write
       checks: write
+
     steps:
       - uses: actions/checkout@v3
         with:
-          ref: ${{ github.event.pull_request.head.sha }}  # to check out the actual pull request commit, not the merge commit
-          fetch-depth: 0  # a full history is required for pull request analysis
-      - name: 'Qodana Scan'
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+
+      - name: Qodana Scan
         uses: JetBrains/qodana-action@v2025.3
         with:
           pr-mode: false
+          args: --save-report
         env:
           QODANA_TOKEN: ${{ secrets.QODANA_TOKEN_1371499128 }}
           QODANA_ENDPOINT: 'https://qodana.cloud'
+
+      - name: Enforce Javadoc and CodeStyle thresholds
+        run: |
+          SARIF="qodana/results/qodana.sarif.json"
+
+          if [ ! -f "$SARIF" ]; then
+            echo "SARIF report not found at $SARIF"
+            exit 1
+          fi
+
+          # Count high-severity Javadoc issues
+          JavadocCount=$(jq '[.runs[].results[]
+            | select(.ruleId | test("(?i)javadoc"))
+            | select(.level == "error")]
+            | length' "$SARIF")
+
+          # Count high-severity CodeStyle issues
+          CodeStyleCount=$(jq '[.runs[].results[]
+            | select(.ruleId | test("(?i)codestyle"))
+            | select(.level == "error")]
+            | length' "$SARIF")
+
+          echo "High severity Javadoc issues: $JavadocCount"
+          echo "High severity CodeStyle issues: $CodeStyleCount"
+
+          if [ "$JavadocCount" -gt 10 ]; then
+            echo "❌ Too many high-severity Javadoc issues (>10)"
+            exit 1
+          fi
+
+          if [ "$CodeStyleCount" -gt 15 ]; then
+            echo "❌ Too many high-severity CodeStyle issues (>15)"
+            exit 1
+          fi
+
+          echo "✔️ Thresholds satisfied"
