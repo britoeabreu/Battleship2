@@ -37,16 +37,15 @@ jobs:
 
           if [ ! -f "$SARIF" ]; then
             echo "SARIF report not found at $SARIF"
+            ls -R qodana || true
             exit 1
           fi
 
-          # Count high-severity Javadoc issues
           JavadocCount=$(jq '[.runs[].results[]
             | select(.ruleId | test("(?i)javadoc"))
             | select(.level == "error")]
             | length' "$SARIF")
 
-          # Count high-severity CodeStyle issues
           CodeStyleCount=$(jq '[.runs[].results[]
             | select(.ruleId | test("(?i)codestyle"))
             | select(.level == "error")]
