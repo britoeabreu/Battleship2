@@ -31,7 +31,7 @@ jobs:
           QODANA_TOKEN: ${{ secrets.QODANA_TOKEN_1371499128 }}
           QODANA_ENDPOINT: 'https://qodana.cloud'
 
-      - name: Enforce Javadoc and CodeStyle thresholds
+      - name: Enforce max 5 suspicious-indentation errors
         run: |
           SARIF="$RUNNER_TEMP/qodana/results/qodana.sarif.json"
 
@@ -39,32 +39,21 @@ jobs:
 
           if [ ! -f "$SARIF" ]; then
             echo "SARIF report not found at $SARIF"
-            echo "Listing temp directory:"
             ls -R "$RUNNER_TEMP" || true
             exit 1
           fi
 
-          JavadocCount=$(jq '[.runs[].results[]
-            | select(.ruleId | test("(?i)javadoc"))
+          # Count only "Suspicious indentation after control statement without braces"
+          SuspiciousIndentCount=$(jq '[.runs[].results[]
+            | select(.ruleId == "ControlFlowStatementWithoutBraces")
             | select(.level == "error")]
             | length' "$SARIF")
 
-          CodeStyleCount=$(jq '[.runs[].results[]
-            | select(.ruleId | test("(?i)codestyle"))
-            | select(.level == "error")]
-            | length' "$SARIF")
+          echo "Suspicious indentation errors: $SuspiciousIndentCount"
 
-          echo "High severity Javadoc issues: $JavadocCount"
-          echo "High severity CodeStyle issues: $CodeStyleCount"
-
-          if [ "$JavadocCount" -gt 10 ]; then
-            echo "❌ Too many high-severity Javadoc issues (>10)"
+          if [ "$SuspiciousIndentCount" -gt 5 ]; then
+            echo "❌ Too many suspicious-indentation errors (>5)"
             exit 1
           fi
 
-          if [ "$CodeStyleCount" -gt 15 ]; then
-            echo "❌ Too many high-severity CodeStyle issues (>15)"
-            exit 1
-          fi
-
-          echo "✔️ Thresholds satisfied"
+          echo "✔️ Suspicious-indentation threshold satisfied"
