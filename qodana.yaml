@@ -4,7 +4,89 @@
 
 version: "1.0"
 linter: jetbrains/qodana-jvm:2025.3
+
 profile:
   name: qodana.recommended
+
 include:
-  - name: CheckDependencyLicenses
+  # =======================================================================
+  # SIZE & COMPLEXITY
+  # =======================================================================
+  
+  # Detects methods that exceed a reasonable line count threshold
+  - name: OverlyLongMethod
+  # Detects classes that have grown too large and take on too many responsibilities
+  - name: OverlyComplexClass
+  # Detects methods with an excessively high cyclomatic complexity
+  - name: OverlyComplexMethod
+  # Detects methods that require too many parameters
+  - name: MethodWithTooManyParameters
+  # Detects overly deep nesting of control flow statements (if, for, while)
+  - name: NestingDepth
+
+  # =======================================================================
+  # DUPLICATION
+  # =======================================================================
+  
+  # Detects duplicated code fragments across methods and classes
+  - name: DuplicatedCode
+
+  # =======================================================================
+  # DATA FLOW & REDUNDANCY
+  # =======================================================================
+  
+  # Detects unused variables, parameters, methods, fields, and classes (Dead Code)
+  - name: UnusedDeclaration
+  # Detects redundant assignments where the assigned value is never actually read
+  - name: UnusedAssignment
+  # Detects expressions that always evaluate to true/false or variables that are always null
+  - name: ConstantConditions
+
+  # =======================================================================
+  # OBJECT-ORIENTED DESIGN
+  # =======================================================================
+  
+  # Detects methods that do not access instance data and could be made static (often a strong indicator of Feature Envy)
+  - name: MethodMayBeStatic
+  # Detects classes that are mostly public fields with no methods (Anemic Data Classes)
+  - name: PublicField
+  # Detects utility classes that lack a private constructor, allowing improper instantiation
+  - name: UtilityClassWithoutPrivateConstructor
+
+  # =======================================================================
+  # INHERITANCE & POLYMORPHISM
+  # =======================================================================
+  
+  # Detects overridden methods that simply call super() without adding new behavior
+  - name: RedundantMethodOverride
+  # Detects long chains of 'instanceof' checks, which should typically be replaced by polymorphism
+  - name: ChainOfInstanceofChecks
+
+  # =======================================================================
+  # ENCAPSULATION & API DESIGN
+  # =======================================================================
+  
+  # Detects declarations (classes, methods, fields) whose visibility can be made more restrictive (e.g., public -> private)
+  - name: WeakerAccess
+  # Detects returning a reference to an internal mutable collection, exposing internal state
+  - name: ReturnOfCollectionField
+  # Detects assigning a collection parameter directly to a field, breaking encapsulation
+  - name: AssignmentToCollectionFieldFromParameter
+
+  # =======================================================================
+  # EXPRESSIONS & CONDITIONALS
+  # =======================================================================
+  
+  # Detects boolean expressions that are overly long, hard to read, and complex
+  - name: OverlyComplexBooleanExpression
+  # Detects violations of the Law of Demeter (e.g., message chains like a.getB().getC().doThing())
+  - name: LawOfDemeter
+
+  # =======================================================================
+  # DEPENDENCIES & MODULARITY
+  # =======================================================================
+  
+  # Detects cyclic dependencies between different packages
+  - name: CyclicPackageDependency
+  # Detects cyclic dependencies directly between classes
+  - name: CyclicClassDependency
