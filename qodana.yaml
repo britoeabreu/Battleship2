@@ -1,92 +1,31 @@
-####################################################################################################################
-# WARNING: Do not store sensitive information in this file, as its contents will be included in the Qodana report. #
-####################################################################################################################
-
+#-------------------------------------------------------------------------------#
+#               Qodana analysis is configured by qodana.yaml file               #
+#             https://www.jetbrains.com/help/qodana/qodana-yaml.html            #
+#-------------------------------------------------------------------------------#
 version: "1.0"
-linter: jetbrains/qodana-jvm:2025.3
 
+#Specify inspection profile for code analysis
 profile:
-  name: qodana.recommended
+  name: qodana.starter
 
-include:
-  # =======================================================================
-  # SIZE & COMPLEXITY
-  # =======================================================================
-  
-  # Detects methods that exceed a reasonable line count threshold
-  - name: OverlyLongMethod
-  # Detects classes that have grown too large and take on too many responsibilities
-  - name: OverlyComplexClass
-  # Detects methods with an excessively high cyclomatic complexity
-  - name: OverlyComplexMethod
-  # Detects methods that require too many parameters
-  - name: MethodWithTooManyParameters
-  # Detects overly deep nesting of control flow statements (if, for, while)
-  - name: NestingDepth
+#Enable inspections
+#include:
+#  - name: <SomeEnabledInspectionId>
 
-  # =======================================================================
-  # DUPLICATION
-  # =======================================================================
-  
-  # Detects duplicated code fragments across methods and classes
-  - name: DuplicatedCode
+#Disable inspections
+#exclude:
+#  - name: <SomeDisabledInspectionId>
+#    paths:
+#      - <path/where/not/run/inspection>
 
-  # =======================================================================
-  # DATA FLOW & REDUNDANCY
-  # =======================================================================
-  
-  # Detects unused variables, parameters, methods, fields, and classes (Dead Code)
-  - name: UnusedDeclaration
-  # Detects redundant assignments where the assigned value is never actually read
-  - name: UnusedAssignment
-  # Detects expressions that always evaluate to true/false or variables that are always null
-  - name: ConstantConditions
+projectJDK: "23" #(Applied in CI/CD pipeline)
 
-  # =======================================================================
-  # OBJECT-ORIENTED DESIGN
-  # =======================================================================
-  
-  # Detects methods that do not access instance data and could be made static (often a strong indicator of Feature Envy)
-  - name: MethodMayBeStatic
-  # Detects classes that are mostly public fields with no methods (Anemic Data Classes)
-  - name: PublicField
-  # Detects utility classes that lack a private constructor, allowing improper instantiation
-  - name: UtilityClassWithoutPrivateConstructor
+#Execute shell command before Qodana execution (Applied in CI/CD pipeline)
+#bootstrap: sh ./prepare-qodana.sh
 
-  # =======================================================================
-  # INHERITANCE & POLYMORPHISM
-  # =======================================================================
-  
-  # Detects overridden methods that simply call super() without adding new behavior
-  - name: RedundantMethodOverride
-  # Detects long chains of 'instanceof' checks, which should typically be replaced by polymorphism
-  - name: ChainOfInstanceofChecks
+#Install IDE plugins before Qodana execution (Applied in CI/CD pipeline)
+#plugins:
+#  - id: <plugin.id> #(plugin id can be found at https://plugins.jetbrains.com)
 
-  # =======================================================================
-  # ENCAPSULATION & API DESIGN
-  # =======================================================================
-  
-  # Detects declarations (classes, methods, fields) whose visibility can be made more restrictive (e.g., public -> private)
-  - name: WeakerAccess
-  # Detects returning a reference to an internal mutable collection, exposing internal state
-  - name: ReturnOfCollectionField
-  # Detects assigning a collection parameter directly to a field, breaking encapsulation
-  - name: AssignmentToCollectionFieldFromParameter
-
-  # =======================================================================
-  # EXPRESSIONS & CONDITIONALS
-  # =======================================================================
-  
-  # Detects boolean expressions that are overly long, hard to read, and complex
-  - name: OverlyComplexBooleanExpression
-  # Detects violations of the Law of Demeter (e.g., message chains like a.getB().getC().doThing())
-  - name: LawOfDemeter
-
-  # =======================================================================
-  # DEPENDENCIES & MODULARITY
-  # =======================================================================
-  
-  # Detects cyclic dependencies between different packages
-  - name: CyclicPackageDependency
-  # Detects cyclic dependencies directly between classes
-  - name: CyclicClassDependency
+#Specify Qodana linter for analysis (Applied in CI/CD pipeline)
+linter: jetbrains/qodana-jvm:2025.1
