@@ -45,6 +45,13 @@ import java.util.ArrayList;
 			assertTrue(fleet.getShips().isEmpty(), "Error: Fleet should be initialized with empty ships list.");
 		}
 
+		@Test
+		void testCreateRandom(){
+				IFleet r = Fleet.createRandom();
+				assertNotNull(r, "Error: createRandom should return a non-null fleet instance.");
+				assertEquals(Fleet.FLEET_SIZE, r.getShips().size(), "Error: createRandom should create a fleet with the correct number of ships.");
+		}
+
 		/**
 		 * Test for the addShip method (all conditions true).
 		 * Cyclomatic Complexity: 3
@@ -150,22 +157,6 @@ import java.util.ArrayList;
 			assertNull(fleet.shipAt(new Position(5, 5)), "Error: Should return null for empty positions in the fleet.");
 		}
 
-		/**
-		 * Test for private method isInsideBoard.
-		 * Cyclomatic Complexity: 3
-		 */
-		@Test
-		void testIsInsideBoard() throws Exception {
-			// Use reflection to access private methods
-			var method = Fleet.class.getDeclaredMethod("isInsideBoard", IShip.class);
-			method.setAccessible(true);
-
-			IShip insideShip = new Barge(Compass.NORTH, new Position(1, 1));
-			IShip outsideShip = new Barge(Compass.NORTH, new Position(99, 99));
-
-			assertTrue((Boolean) method.invoke(fleet, insideShip), "Error: Ship inside the board should return true.");
-			assertFalse((Boolean) method.invoke(fleet, outsideShip), "Error: Ship outside the board should return false.");
-		}
 
 		/**
 		 * Test for private method colisionRisk.

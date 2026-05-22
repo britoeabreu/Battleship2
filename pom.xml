@@ -12,6 +12,48 @@
 	<description>A Battleship Game player.</description>
 	<url>https://github.com/britoeabreu/Battleship2.git</url>
 
+	<developers>
+	  <developer>
+		<id>mgoulao</id>
+		<name>Miguel Goulão</name>
+		<email>mgoul@fct.unl.pt</email>
+		<organization>FCT/UNL</organization>
+		<roles>
+		  <role>Product Owner</role>
+		</roles>
+	  </developer>
+
+	  <developer>
+		<id>jose-vicente-reis</id>
+		<name>José Vicente Reis</name>
+		<email>Jose_Vicente_Reis@iscte-iul.pt</email>
+		<organization>Iscte-IUL</organization>
+		<roles>
+		  <role>Team Member</role>
+		</roles>
+	  </developer>
+
+	  <developer>
+		<id>adriano-lopes</id>
+		<name>Adriano Lopes</name>
+		<email>adriano.lopes@iscte-iul.pt</email>
+		<organization>Iscte-IUL</organization>
+		<roles>
+		  <role>Team Member</role>
+		</roles>
+	  </developer>
+
+	  <developer>
+		<id>fernando-brito-abreu</id>
+		<name>Fernando Brito e Abreu</name>
+		<email>fba@iscte-iul.pt</email>
+		<organization>Iscte-IUL</organization>
+		<roles>
+		  <role>Scrum Master</role>
+		</roles>
+	  </developer>
+	</developers>
+
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
@@ -25,7 +67,7 @@
 		<maven.surefire.version>3.1.2</maven.surefire.version>
 		<maven.shade.version>3.5.0</maven.shade.version>
 
-		<apache.log4j.version>2.25.4</apache.log4j.version>
+		<apache.log4j.version>2.20.0</apache.log4j.version>
 
 		<jackson.version>2.17.1</jackson.version>
 
@@ -35,6 +77,13 @@
 	</properties>
 
 	<dependencies>
+		<!-- Spring Boot REST server (includes Jackson, embedded Tomcat) -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+			<version>3.2.4</version>
+		</dependency>
+
 		<!-- JUnit Jupiter API -->
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
@@ -112,7 +161,7 @@
 							<createDependencyReducedPom>false</createDependencyReducedPom>
 							<transformers>
 								<transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-									<mainClass>pt.iscte-iul.istar.battleship.Main</mainClass>
+									<mainClass>restserver.BattleshipServer</mainClass>
 								</transformer>
 							</transformers>
 						</configuration>
@@ -127,6 +176,14 @@
 					<includes>
 						<include>**/*Test.java</include>
 					</includes>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-site-plugin</artifactId>
+				<version>3.12.0</version>
+				<configuration>
+					<outputDirectory>${project.basedir}/docs</outputDirectory>
 				</configuration>
 			</plugin>
 		</plugins>

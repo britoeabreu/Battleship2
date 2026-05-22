@@ -136,9 +136,6 @@ public class Position implements IPosition {
 
 		List<IPosition> adjacents = new ArrayList<IPosition>();
 
-		int row = this.getRow();
-		int col = this.getColumn();
-
 		// Define possible directions (up, right, down, left)
 		int[][] directions = {
 				{-1, 0},  // north
@@ -153,7 +150,7 @@ public class Position implements IPosition {
 
 		// Check each possible direction
 		for (int[] dir : directions) {
-			Position newPosition = new Position(row + dir[0], col + dir[1]);
+			Position newPosition = new Position(row + dir[0], column + dir[1]);
 			// Only add the position if it's inside the board boundaries
 			if (newPosition.isInside()) {
 				adjacents.add(newPosition);

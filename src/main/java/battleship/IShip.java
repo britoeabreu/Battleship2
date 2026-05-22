@@ -112,6 +112,11 @@ public interface IShip
 	boolean tooCloseTo(IPosition pos);
 
 	/**
+	 * True if the ship is inside the board
+	 */
+	boolean isInsideBoard();
+
+	/**
 	 * Shoot.
 	 *
 	 * @param pos the pos
@@ -122,4 +127,11 @@ public interface IShip
 	 * Sink.
 	 */
 	void sink();
+
+	/**
+	 * Is inside board boolean.
+	 *
+	 * @return the boolean
+	 */
+
 }

@@ -33,6 +33,22 @@ public class Game implements IGame
 			for (int c = 0; c < BOARD_SIZE; c++)
 				map[r][c] = EMPTY_MARKER;
 
+		printShips(fleet, map);
+
+		if (show_shots)
+			printBoardShots(moves, map);
+
+		printBoardFrame(map);
+
+		if (showLegend) {
+			System.out.println("          LEGENDA");
+			System.out.println("'" + SHIP_MARKER + "'->navio, '" + SHIP_ADJACENT_MARKER + "'->adjacente a navio, '" + EMPTY_MARKER + "'->água");
+			System.out.println("'" + SHOT_SHIP_MARKER + "'->Tiro certeiro, '" + SHOT_WATER_MARKER + "'->Tiro na água");
+		}
+		System.out.println();
+	}
+
+	private static void printShips(IFleet fleet, char[][] map) {
 		for (IShip ship : fleet.getShips()) {
 			for (IPosition ship_pos : ship.getPositions())
 				map[ship_pos.getRow()][ship_pos.getColumn()] = SHIP_MARKER;
@@ -40,20 +56,23 @@ public class Game implements IGame
 				for (IPosition adjacent_pos : ship.getAdjacentPositions())
 					map[adjacent_pos.getRow()][adjacent_pos.getColumn()] = SHIP_ADJACENT_MARKER;
 		}
+	}
 
-		if (show_shots)
-			for (IMove move : moves)
-				for (IPosition shot : move.getShots()) {
-					if (shot.isInside()){
-						int row = shot.getRow();
-						int col = shot.getColumn();
-						if (map[row][col] == SHIP_MARKER)
-							map[row][col] = SHOT_SHIP_MARKER;
-						if (map[row][col] == EMPTY_MARKER || map[row][col] == SHIP_ADJACENT_MARKER)
-							map[row][col] = SHOT_WATER_MARKER;
-					}
+	private static void printBoardShots(List<IMove> moves, char[][] map) {
+		for (IMove move : moves)
+			for (IPosition shot : move.getShots()) {
+				if (shot.isInside()){
+					int row = shot.getRow();
+					int col = shot.getColumn();
+					if (map[row][col] == SHIP_MARKER)
+						map[row][col] = SHOT_SHIP_MARKER;
+					if (map[row][col] == EMPTY_MARKER || map[row][col] == SHIP_ADJACENT_MARKER)
+						map[row][col] = SHOT_WATER_MARKER;
 				}
+			}
+	}
 
+	private static void printBoardFrame(char[][] map) {
 		System.out.println();
 		System.out.print("    ");
 		for (int col = 0; col < BOARD_SIZE; col++) {
@@ -80,13 +99,6 @@ public class Game implements IGame
 		for (int col = 0; col < BOARD_SIZE; col++)
 			System.out.print("--");
 		System.out.println("-+");
-
-		if (showLegend) {
-			System.out.println("          LEGENDA");
-			System.out.println("'" + SHIP_MARKER + "'->navio, '" + SHIP_ADJACENT_MARKER + "'->adjacente a navio, '" + EMPTY_MARKER + "'->água");
-			System.out.println("'" + SHOT_SHIP_MARKER + "'->Tiro certeiro, '" + SHOT_WATER_MARKER + "'->Tiro na água");
-		}
-		System.out.println();
 	}
 
 	/**
@@ -127,8 +139,8 @@ public class Game implements IGame
 			throw new RuntimeException("Erro ao serializar o JSON", e);
 		}
 
-//		System.out.println(jsonString);
-//		System.out.println();
+		System.out.println(jsonString);
+		System.out.println();
 
 		// Retornar o JSON
 		return jsonString;
@@ -181,21 +193,21 @@ public class Game implements IGame
 	}
 
 	@Override
-	public List<IMove> getAlienMoves()
-	{
-		return alienMoves;
-	}
-
-	@Override
 	public IFleet getAlienFleet()
 	{
-		return myFleet;
+		return alienFleet;
 	}
 
 	@Override
 	public List<IMove> getMyMoves()
 	{
 		return myMoves;
+	}
+
+	@Override
+	public List<IMove> getAlienMoves()
+	{
+		return alienMoves;
 	}
 
 	/**

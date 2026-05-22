@@ -67,7 +67,8 @@ class CaravelTest {
 	 */
 	@Test
 	@DisplayName("Test for the constructor with SOUTH direction")
-	void constructor2() {
+	void
+	constructor2() {
 		assertNotNull(cS, "Error: The Caravel should not be null.");
 		assertEquals(Compass.SOUTH, cS.getBearing(), "Error: The Caravel's direction should be SOUTH.");
 		assertEquals(6, cS.getBottomMostPos(), "Error: The bottommost position should be 6.");

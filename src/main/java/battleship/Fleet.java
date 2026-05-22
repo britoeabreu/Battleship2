@@ -20,7 +20,7 @@ public class Fleet implements IFleet
 	 */
 	public static IFleet createRandom() {
 
-		Fleet randomFleet = new Fleet();
+		IFleet randomFleet = new Fleet();
 
 		// Define the types of ships to be added
 		String[] shipTypes =
@@ -90,7 +90,7 @@ public class Fleet implements IFleet
 		assert s != null;
 
 		boolean result = false;
-		if ((ships.size() <= FLEET_SIZE) && (isInsideBoard(s)) && (!colisionRisk(s)))
+		if ((ships.size() <= FLEET_SIZE) && (s.isInsideBoard()) && (!colisionRisk(s)))
 		{
 			ships.add(s);
 			result = true;
@@ -114,7 +114,7 @@ public class Fleet implements IFleet
     {
 		assert category != null;
 
-		List<IShip> shipsLike = new ArrayList<>();
+		List<IShip> shipsLike = new ArrayList<IShip>();
 		for (IShip s : ships)
 			if (s.getCategory().equals(category))
 				shipsLike.add(s);
@@ -184,20 +184,6 @@ public class Fleet implements IFleet
 			if (ship.occupies(pos))
 				return ship;
 		return null;
-    }
-
-	/**
-	 * Is inside board boolean.
-	 *
-	 * @param s the s
-	 * @return the boolean
-	 */
-	private boolean isInsideBoard(IShip s)
-    {
-		assert s != null;
-
-		return (s.getLeftMostPos() >= 0 && s.getRightMostPos() <= Game.BOARD_SIZE - 1 && s.getTopMostPos() >= 0
-			&& s.getBottomMostPos() <= Game.BOARD_SIZE - 1);
     }
 
 	/**

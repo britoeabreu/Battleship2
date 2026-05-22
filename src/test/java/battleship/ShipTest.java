@@ -28,12 +28,13 @@ import java.util.List;
  */
 public class ShipTest {
 
-    private Ship ship;
+    private Ship ship, shipBorder;
 
     @BeforeEach
     void setUp() {
         // Since Ship is abstract, instantiate it with a concrete subclass (e.g., Barge)
         ship = new Barge(Compass.NORTH, new Position(5, 5));
+        shipBorder = new Barge(Compass.NORTH, new Position(0, 0));
     }
 
     @AfterEach
@@ -225,4 +226,16 @@ public class ShipTest {
     void testGetRightMostPos() {
         assertEquals(5, ship.getRightMostPos(), "Error: The rightmost position should be 5.");
     }
+
+    /**
+     * Test for the getRightMostPos method.
+     * Cyclomatic Complexity: 2
+     */
+    @Test
+    void testGetAdjacentPositions() {
+        assertEquals(8, ship.getAdjacentPositions().size(), "Error: The number of adjacent positions of a barge in the middle of the tray should be 8.");
+        assertEquals(3, shipBorder.getAdjacentPositions().size(), "Error: The number of adjacent positions of a barge in the middle of the tray should be 8.");
+    }
+
+
 }
