@@ -69,7 +69,7 @@
 
 		<apache.log4j.version>2.20.0</apache.log4j.version>
 
-		<jackson.version>2.17.1</jackson.version>
+		<jackson.version>2.18.11</jackson.version>
 
 		<allure.version>2.31.0</allure.version>
 
